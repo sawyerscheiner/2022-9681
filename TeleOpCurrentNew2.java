@@ -1,4 +1,4 @@
-// THIS IS THE NEW CODE CLAIRE MADE ON SUNDAY 3/7/21 THAT INCLUDES THE TWO MOTORS FOR THE ARM AND THE 3 SERVOS FOR THE WRIST
+// THIS IS THE NEWEST CODE
 
 package org.firstinspires.ftc.teamcode;
 
@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
-
+//HERE WE INITIALIZE OUR VARIABLES AND MOTORS
 @TeleOp(name ="TeleOpCurrentNew2", group = "TeleOP")
 public class TeleOpCurrentNew2 extends OpMode {
     DcMotor frontRight;
@@ -41,8 +41,8 @@ public class TeleOpCurrentNew2 extends OpMode {
 
 
     public void init() {
-        // Hardware map is for phone
-
+        // Here we construct our hardware map for the phone --> lets the phone identify which variables are which
+    
         //touchSense = hardwareMap.get(DigitalChannel.class, "sensor_digital");
         frontRight = hardwareMap.dcMotor.get("front right");
         frontLeft = hardwareMap.dcMotor.get("front left");
@@ -58,13 +58,12 @@ public class TeleOpCurrentNew2 extends OpMode {
         wrist = hardwareMap.crservo.get("wrist");
     }
 
-
+    //sets power for our arm
     private void setRaiseArmPower(double armPower, double multiplier){
         raiseArm1.setPower(armPower*multiplier);
         //raiseArm2.setPower(armPower*multiplier);
         return;
     }
-
 
     public void loop() {
         //              -----STICK VARIABLES-----
@@ -113,60 +112,11 @@ public class TeleOpCurrentNew2 extends OpMode {
             powerButton = 2;
 
 
-        //              ###DRAG SERVOS###
-        /*
-        if (gamepad1.a) {
-            drag1.setPower(.5);
-            drag2.setPower(-.5);
-        }
-        else if (gamepad1.b) {
-            drag1.setPower(-.5);
-            drag2.setPower(.5);
-        }
-        else {
-            drag1.setPower(0);
-            drag2.setPower(0);
-        }
-        */
-
-        /*
-        if (gamepad1.x) {
-            drag2.setPower(.5);
-        }
-        else if (gamepad1.y) {
-            drag2.setPower(-.5);
-        }
-        else {
-            drag2.setPower(0);
-        }
-        */
-
-
 
 
         //          -----GAME PAD 2-----
 
         //              ###CLAMPS###
-
-        // Commented because setPower only works on CRServos and not Servos.
-        /*
-        if (gamepad2.x)
-            clamp = true;
-        if (gamepad2.y) {
-            claw1.setPower(1);
-            claw2.setPower(-1);
-            clamp = false;
-        }
-        else if (!clamp) {
-            claw1.setPower(0);
-            claw2.setPower(0);
-        }
-        if (clamp) {
-            claw1.setPower(-1);
-            claw2.setPower(1);
-        }
-        */
-
 
         // claw1: 1=open, 0=closed
         // claw2: 0=open, 1=closed
@@ -206,7 +156,7 @@ public class TeleOpCurrentNew2 extends OpMode {
             }
             // If the driver is trying to move the arm down:
             else if (rawRaiseValue < 0) {
-                setRaiseArmPower(-1.0, 0.35);  // Maybe change armPower
+                setRaiseArmPower(-1.0, 0.35);  
             }
             // If the driver is not moving the arm:
             else{
