@@ -1,0 +1,91 @@
+
+package org.firstinspires.ftc.teamcode;
+
+import android.util.Log;
+
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.StateMachine; //necessary
+import org.firstinspires.ftc.teamcode.StateMachine.State; //necessary
+import java.util.ArrayList;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.Servo;
+
+
+
+
+public class raiseWrist implements State {
+
+    Telemetry telemetry;
+
+    Servo servoWrist;
+    private double Position;
+    private String Movement;
+    private State NextState;
+
+    private int totalTime;
+    ElapsedTime mRuntime = new ElapsedTime();
+    boolean reset = true;
+
+
+    public raiseWrist(int time, double position, ArrayList<Servo> Servos) {
+        totalTime = time;
+        servoWrist = Servos.get(2);
+
+
+        Position = position;
+
+
+
+    }
+
+    public void setNextState(State state) {
+        NextState = state;
+
+    }
+
+    @Override
+    public void start() {
+
+
+    }
+
+    @Override
+    public State update() {
+
+        if (reset){
+            mRuntime.reset();
+            reset = false;
+        }
+
+
+        while (mRuntime.milliseconds() < totalTime) {
+
+
+            servoWrist.setPosition(Position); //0.4
+
+            return this;
+
+        }
+
+        servoWrist.setPosition(Position); //0.4
+
+        // return NextState;
+
+
+
+
+
+        return NextState;
+    }
+
+}
