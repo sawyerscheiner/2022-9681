@@ -1,0 +1,159 @@
+package org.firstinspires.ftc.teamcode;
+//THIS IS FOR THE BLUE SIDE
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import java.util.ArrayList;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+/*
+Parallel Lions 9681 Autonomous Blue Code
+author: 9681 Software
+GOALS: Place the wobble goal in the zone and put rings in lowest goal
+DESCRIPTION: This code is used for our autonomous when we are located on the blue side
+ */
+@Autonomous(name="AutoTest", group="Iterative Opmode")
+public class AutonomousTest extends OpMode
+{
+
+
+    /*
+    ---MOTORS---
+     */
+    DcMotor leftFront;
+    DcMotor rightFront;
+    DcMotor leftBack;
+    DcMotor rightBack; //make sure these are the right motors
+    DcMotor extendArm;
+    Servo claw1;
+    Servo claw2;
+    Servo servoWrist;
+    DcMotor raiseArm2;
+    DcMotor raiseArmMotor;
+
+
+    ArrayList<DcMotor> motors = new ArrayList<DcMotor>();
+    ArrayList<Servo> Servos = new ArrayList<Servo>();
+
+    private StateMachine machine;
+
+    driveState backwards;
+    driveState strafeLeft;
+    driveState turnRight;
+    driveState forward;
+    driveState strafeLeft2;
+    raiseWrist wristRaising;
+    extendArmState raiseArm1;
+    extendArmState extendFirst;
+
+    ServoState open1;
+    driveState moveBackwards1;
+
+
+
+    public void init() {
+
+        /*
+        ---HARDWARE MAP---
+         */
+        rightFront=hardwareMap.dcMotor.get("front right");
+        leftFront = hardwareMap.dcMotor.get("front left");
+        rightBack = hardwareMap.dcMotor.get("back right");
+        leftBack = hardwareMap.dcMotor.get("back left");
+        raiseArmMotor = hardwareMap.dcMotor.get("raise arm");
+        extendArm = hardwareMap.dcMotor.get("extend arm");
+        servoWrist = hardwareMap.servo.get("wrist");
+        claw1 = hardwareMap.servo.get("claw 1");
+        claw2 = hardwareMap.servo.get("claw 2");
+        //get the CRSERVO
+
+
+        /*
+        ---MOTOR DIRECTIONS---
+         */
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+//could be wrong!!!! test
+        /*
+        ---GROUPING---
+         */
+        motors.add(rightFront);
+        motors.add(leftFront);
+        motors.add(rightBack);
+        motors.add(leftBack);
+        Servos.add(claw1); //this is 0
+        Servos.add(claw2); //this is 1
+        Servos.add(servoWrist); //this is 2
+        //extend, CRServos
+        //maybe add an extra time?????? it was in colorstone
+        /*
+        ---USING STATES---
+         */
+
+        backwards = new driveState(110, 1.0, motors, "backwards"); //first move left
+        //drive forward a little, then turn left 90 degrees, raise and extend arm. dispose rings, move backwards
+        strafeLeft = new driveState(20, 1.0, motors, "strafeRight");
+        turnRight = new driveState(40, 1.0, motors, "turnRight");
+        //strafeLeft2 = new driveState(6, 1.0, motors, "strafeRight");
+        raiseArm1 = new extendArmState(2500, 0.5, raiseArmMotor); //figure this out
+        wristRaising = new raiseWrist(3000, 0.7, Servos);
+        forward = new driveState(8, 0.5, motors, "forward");
+        extendFirst = new extendArmState(100, 1.0, extendArm);
+        open1 = new ServoState(2000, 0.4, .75, Servos);//ask abby if there are two servos
+        moveBackwards1 = new driveState(40, 1.0, motors, "backwards");
+        //open the claws
+        //back up
+
+
+
+        backwards.setNextState(strafeLeft);
+        strafeLeft.setNextState(turnRight);
+       // raiseArm1.setNextState(forward);
+        turnRight.setNextState(wristRaising);
+        wristRaising.setNextState(forward);
+        forward.setNextState(extendFirst);
+        extendFirst.setNextState(open1);
+        open1.setNextState(moveBackwards1);
+        moveBackwards1.setNextState(null);
+
+
+
+
+
+    }
+
+
+    @Override
+    public void start(){
+
+        machine = new StateMachine(backwards);
+
+    }
+
+
+
+    public void loop()  {
+
+        machine.update();
+
+    }
+
+    public void wait(int time) {
+        try {
+            Thread.sleep(time * 1000);//milliseconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
