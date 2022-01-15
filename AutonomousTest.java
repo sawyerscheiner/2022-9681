@@ -94,26 +94,31 @@ public class AutonomousTest extends OpMode
         ---USING STATES---
          */
 
-        strafeLeft = new driveState(70, 1.0, motors, "left"); //first move left
+        strafeLeft = new driveState(7, 1.0, motors, "strafeRight"); //first move left (but is actually right because our things arte switched
         //drive forward a little, then turn left 90 degrees, raise and extend arm. dispose rings, move backwards
-        forward1 = new driveState(20, 1.0, motors, "forward");
-        turnLeft = new driveState(10, 1.0, motors, "turnLeft");
-        raiseArm1 = new extendArmState(500, -0.5, raiseArmMotor); //figure this out
-        extendFirst = new extendArmState(400, 1.0, extendArm);
-        open1 = new CRServoState(2000, 1.0, 1.0, servos);//ask abby if there are two servos
-        moveBackwards1 = new driveState(5, 1.0, motors, "backward");
+        forwards1 = new driveState(40, 0.5, motors, "backwards");
+        extendFirst = new extendArmState(100, 1.0, extendArm);
+        extendBack = new extendArmState(-100, 1.0, extendArm);
+        open1 = new CRServoState(2000, 1.0, 1.0, servos);//do this later
+        moveBackwards1 = new driveState(5, 1.0, motors, "forwards");
+        turnLeft = new driveState(20, 1.0, motors, "turnLeft");
+        forward2 = new driveState(100, 1.0, motors, "backwards");
         //open the claws
         //back up
 
 
 
         strafeLeft.setNextState(forward1);
-        forward1.setNextState(turnLeft);
-        turnLeft.setNextState(raiseArm1);
-        raiseArm1.setNextState(extendFirst);
-        extendFirst.setNextState(open1);
+        forward1.setNextState(extendFirst);
+        extendFirst.setNextState(extendBack);
+        extendBack.setNextState(open1)
         open1.setNextState(moveBackwards1);
-        moveBackwards1.setNextState(null);
+        moveBackwards1.setNextState(turnLeft);
+        turnLeft.setNextState(forward2);
+        forward2.setNextState(null);
+        
+      
+        
 
 
 
