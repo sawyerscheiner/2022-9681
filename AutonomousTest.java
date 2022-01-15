@@ -48,8 +48,12 @@ public class AutonomousTest extends OpMode
     driveState strafeLeft;
     driveState forward1;
     driveState turnLeft;
-    extendArmState raiseArm1;
     extendArmState extendFirst;
+    extendArmState extendBack;
+    CRServoState open1;
+    driveState moveBackwards1;
+    driveState turnLeft;
+    driveState forward2;
 
     CRServoState open1;
     driveState moveBackwards1;
