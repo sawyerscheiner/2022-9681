@@ -52,7 +52,7 @@ public class AutonomousTest extends OpMode
     extendArmState extendBack;
     CRServoState open1;
     driveState moveBackwards1;
-    driveState turnLeft;
+    driveState turnLeft2;
     driveState forward2;
 
     CRServoState open1;
@@ -105,7 +105,7 @@ public class AutonomousTest extends OpMode
         extendBack = new extendArmState(-100, 1.0, extendArm);
         open1 = new CRServoState(2000, 1.0, 1.0, servos);//do this later
         moveBackwards1 = new driveState(5, 1.0, motors, "forwards");
-        turnLeft = new driveState(20, 1.0, motors, "turnLeft");
+        turnLeft2 = new driveState(20, 1.0, motors, "turnLeft");
         forward2 = new driveState(100, 1.0, motors, "backwards");
         //open the claws
         //back up
@@ -117,8 +117,8 @@ public class AutonomousTest extends OpMode
         extendFirst.setNextState(extendBack);
         extendBack.setNextState(open1)
         open1.setNextState(moveBackwards1);
-        moveBackwards1.setNextState(turnLeft);
-        turnLeft.setNextState(forward2);
+        moveBackwards1.setNextState(turnLeft2);
+        turnLeft2.setNextState(forward2);
         forward2.setNextState(null);
         
       
