@@ -129,6 +129,9 @@ public class Teleop22Comp extends OpMode {
             
             intake.setPower(-1);   
         }
+        else{
+         intake.setPower(0);   
+        }
 
         // claw1: 1=open, 0=closed
         // claw2: 0=open, 1=closed
