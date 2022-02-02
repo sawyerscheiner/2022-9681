@@ -27,7 +27,7 @@ public class intakeState implements State {
     ElapsedTime mRuntime = new ElapsedTime();
 
 
-    public extendArmState(int time, double power, DcMotor extend) {
+    public intakeState(int time, double power, DcMotor extend) {
         Time = time;
         extendArm = extend;
 
