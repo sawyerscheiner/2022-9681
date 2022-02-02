@@ -28,8 +28,8 @@ public class Teleop22Comp extends OpMode {
     DcMotor raiseArm1;
     DcMotor raiseArm2;
     DcMotor extendArm;
-    //Servo claw1;
-    //Servo claw2;
+    Servo claw1;
+    Servo claw2;
     DcMotor intake;
     boolean powerControl = false;
     double powerGiven =0;
@@ -51,8 +51,8 @@ public class Teleop22Comp extends OpMode {
         raiseArm1 = hardwareMap.dcMotor.get("raise arm");
         //raiseArm2 = hardwareMap.dcMotor.get("raise arm 2");
         extendArm = hardwareMap.dcMotor.get("extend arm");
-       // claw1 = hardwareMap.servo.get("claw 1");
-        //claw2 = hardwareMap.servo.get("claw 2");
+       claw1 = hardwareMap.servo.get("claw 1");
+        claw2 = hardwareMap.servo.get("claw 2");
         //drag1 = hardwareMap.crservo.get("drag front");
         //drag2 = hardwareMap.crservo.get("drag back");
         wrist = hardwareMap.crservo.get("wrist");
