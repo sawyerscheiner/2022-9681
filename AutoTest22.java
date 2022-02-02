@@ -106,6 +106,7 @@ public class AutonomousTest extends OpMode
         //drive forward a little, then turn left 90 degrees, raise and extend arm. dispose rings, move backwards
         forwards1 = new driveState(25, 0.1, motors, "forwards");
         extendFirst = new extendArmState(100, 1.0, extendArm);
+        deposit = new intakeState(1000, -1.0, intake);
         extendBack = new extendArmState(100, -1.0, extendArm);
       //  open1 = new CRServoState(2000, 1.0, 1.0, servos);//do this later
         moveBackwards1 = new driveState(5, 1.0, motors, "backwards");
