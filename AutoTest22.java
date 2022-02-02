@@ -76,8 +76,8 @@ public class AutonomousTest extends OpMode
         extendArm = hardwareMap.dcMotor.get("extend arm");
         intake = hardwareMap.dcMotor.get("intake");
 
-       claw1 = hardwareMap.crservo.get("claw 1");
-       claw2 = hardwareMap.crservo.get("claw 2");
+       //claw1 = hardwareMap.crservo.get("claw 1");
+       //claw2 = hardwareMap.crservo.get("claw 2");
         //get the CRSERVO
 
 
