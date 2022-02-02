@@ -35,9 +35,10 @@ public class AutonomousTest extends OpMode
     DcMotor leftBack;
     DcMotor rightBack; //make sure these are the right motors
     DcMotor extendArm;
-    CRServo claw1, claw2;
+    //CRServo claw1, claw2;
     DcMotor raiseArm2;
     DcMotor raiseArmMotor;
+    DcMotor intake;
 
 
     ArrayList<DcMotor> motors = new ArrayList<DcMotor>();
@@ -50,6 +51,7 @@ public class AutonomousTest extends OpMode
     driveState turnLeft;
     extendArmState raiseArm1;
     extendArmState extendFirst;
+    intakeState deposit; //new
     extendArmState extendBack;
     driveState getMoveBackwards1;
     driveState turnLeft2;
@@ -72,6 +74,7 @@ public class AutonomousTest extends OpMode
         leftBack = hardwareMap.dcMotor.get("back left");
         raiseArmMotor = hardwareMap.dcMotor.get("raise arm");
         extendArm = hardwareMap.dcMotor.get("extend arm");
+        intake = hardwareMap.dcMotor.get("intake");
 
       //  claw1 = hardwareMap.crservo.get("claw 1");
        // claw2 = hardwareMap.crservo.get("claw 2");
@@ -83,7 +86,7 @@ public class AutonomousTest extends OpMode
          */
         rightBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
-//could be wrong!!!! test
+
         /*
         ---GROUPING---
          */
@@ -103,7 +106,7 @@ public class AutonomousTest extends OpMode
         //drive forward a little, then turn left 90 degrees, raise and extend arm. dispose rings, move backwards
         forwards1 = new driveState(25, 0.1, motors, "forwards");
         extendFirst = new extendArmState(100, 1.0, extendArm);
-        extendBack = new extendArmState(-100, 1.0, extendArm);
+        extendBack = new extendArmState(100, -1.0, extendArm);
       //  open1 = new CRServoState(2000, 1.0, 1.0, servos);//do this later
         moveBackwards1 = new driveState(5, 1.0, motors, "backwards");
         turnLeft = new driveState(20, 1.0, motors, "turnRight");
