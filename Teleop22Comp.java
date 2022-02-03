@@ -31,6 +31,7 @@ public class Teleop22Comp extends OpMode {
     Servo claw1;
     Servo claw2;
     DcMotor intake;
+    Servo wrist;
     boolean powerControl = false;
     double powerGiven =0;
     boolean clamp = false;
@@ -42,7 +43,7 @@ public class Teleop22Comp extends OpMode {
 
     public void init() {
         // Here we construct our hardware map for the phone --> lets the phone identify which variables are which
-    
+
         //touchSense = hardwareMap.get(DigitalChannel.class, "sensor_digital");
         frontRight = hardwareMap.dcMotor.get("front right");
         frontLeft = hardwareMap.dcMotor.get("front left");
@@ -51,13 +52,13 @@ public class Teleop22Comp extends OpMode {
         raiseArm1 = hardwareMap.dcMotor.get("raise arm");
         //raiseArm2 = hardwareMap.dcMotor.get("raise arm 2");
         extendArm = hardwareMap.dcMotor.get("extend arm");
-       claw1 = hardwareMap.servo.get("claw 1");
+        claw1 = hardwareMap.servo.get("claw 1");
         claw2 = hardwareMap.servo.get("claw 2");
         //drag1 = hardwareMap.crservo.get("drag front");
         //drag2 = hardwareMap.crservo.get("drag back");
-        wrist = hardwareMap.crservo.get("wrist");
+        wrist = hardwareMap.servo.get("wrist");
         intake = hardwareMap.dcMotor.get("intake");
-        
+
     }
 
     //sets power for our arm
@@ -119,18 +120,18 @@ public class Teleop22Comp extends OpMode {
         //          -----GAME PAD 2-----
 
         //              ###CLAMPS###
-        
+
         if (gamepad2.y) {
-            
-            intake.setPower(1);   
+
+            intake.setPower(1);
         }
-        
+
         else if (gamepad2.x) {
-            
-            intake.setPower(-1);   
+
+            intake.setPower(-1);
         }
         else{
-         intake.setPower(0);   
+            intake.setPower(0);
         }
 
         // claw1: 1=open, 0=closed
@@ -154,12 +155,15 @@ public class Teleop22Comp extends OpMode {
 
 
         //              ###WRIST###
-        if (gamepad2.right_bumper)
-            wrist.setPower(0.5);
-        else if (gamepad2.left_bumper)
-            wrist.setPower(-0.5);
-        else
-            wrist.setPower(0);
+        if (gamepad2.right_bumper){
+            wrist.setPosition(0.65);
+        }
+        else if (gamepad2.left_bumper){
+            wrist.setPosition(0.25);
+        }
+        else {
+            wrist.setPosition(0.0);
+        }
 
 
         //              ###ARM RAISING###
@@ -172,7 +176,7 @@ public class Teleop22Comp extends OpMode {
             }
             // If the driver is trying to move the arm down:
             else if (rawRaiseValue < 0) {
-                setRaiseArmPower(-1.0, 0.35);  
+                setRaiseArmPower(-1.0, 0.35);
             }
             // If the driver is not moving the arm:
             else{
