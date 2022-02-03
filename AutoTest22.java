@@ -13,20 +13,16 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import java.util.ArrayList;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
 /*
 Parallel Lions 9681 Autonomous Blue Code
 author: 9681 Software
 GOALS: Place the wobble goal in the zone and put rings in lowest goal
 DESCRIPTION: This code is used for our autonomous when we are located on the blue side
  */
-@Autonomous(name="AutoTest", group="Iterative Opmode")
-public class AutonomousTest extends OpMode
+@Autonomous(name="AutoTest22", group="Iterative Opmode")
+public class AutoTest22 extends OpMode
 {
-
-
     /*
     ---MOTORS---
      */
@@ -35,17 +31,14 @@ public class AutonomousTest extends OpMode
     DcMotor leftBack;
     DcMotor rightBack; //make sure these are the right motors
     DcMotor extendArm;
-    CRServo claw1, claw2;
+    Servo claw1;
+    Servo claw2;
     DcMotor raiseArm2;
     DcMotor raiseArmMotor;
     DcMotor intake;
-
-
     ArrayList<DcMotor> motors = new ArrayList<DcMotor>();
     ArrayList<CRServo> servos = new ArrayList<CRServo>();
-
     private StateMachine machine;
-
     driveState strafeLeft;
     driveState forwards1;
     driveState turnLeft;
@@ -56,15 +49,9 @@ public class AutonomousTest extends OpMode
     driveState getMoveBackwards1;
     driveState turnLeft2;
     driveState forward2;
-
-
     //CRServoState open1;
     driveState moveBackwards1;
-
-
-
     public void init() {
-
         /*
         ---HARDWARE MAP---
          */
@@ -76,8 +63,10 @@ public class AutonomousTest extends OpMode
         extendArm = hardwareMap.dcMotor.get("extend arm");
         intake = hardwareMap.dcMotor.get("intake");
 
-       //claw1 = hardwareMap.crservo.get("claw 1");
-       //claw2 = hardwareMap.crservo.get("claw 2");
+        claw1 = hardwareMap.servo.get("claw 1");
+        claw2 = hardwareMap.servo.get("claw 2");
+        //claw1 = hardwareMap.crservo.get("claw 1");
+        //claw2 = hardwareMap.crservo.get("claw 2");
         //get the CRSERVO
 
 
@@ -86,7 +75,6 @@ public class AutonomousTest extends OpMode
          */
         rightBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
-
         /*
         ---GROUPING---
          */
@@ -94,29 +82,25 @@ public class AutonomousTest extends OpMode
         motors.add(leftFront);
         motors.add(rightBack);
         motors.add(leftBack);
-         //CRServos.add(claw1);
+        //CRServos.add(claw1);
         //CRServos.add(claw2);
         //extend, CRServos
         //maybe add an extra time?????? it was in colorstone
         /*
         ---USING STATES---
          */
-
         strafeLeft = new driveState(27, 0.2, motors, "strafeLeft"); //first move left (but is actually right because our things arte switched
         //drive forward a little, then turn left 90 degrees, raise and extend arm. dispose rings, move backwards
         forwards1 = new driveState(25, 0.1, motors, "forwards");
         extendFirst = new extendArmState(100, 1.0, extendArm);
         deposit = new intakeState(1000, -1.0, intake);
         extendBack = new extendArmState(100, -1.0, extendArm);
-      //  open1 = new CRServoState(2000, 1.0, 1.0, servos);//do this later
+        //  open1 = new CRServoState(2000, 1.0, 1.0, servos);//do this later
         moveBackwards1 = new driveState(5, 1.0, motors, "backwards");
         turnLeft = new driveState(20, 1.0, motors, "turnRight");
         forward2 = new driveState(100, 1.0, motors, "forwards");
         //open the claws
         //back up
-
-
-
         strafeLeft.setNextState(forwards1);
         forwards1.setNextState(null);
         /*
@@ -126,31 +110,14 @@ public class AutonomousTest extends OpMode
         turnLeft.setNextState(forward2);
         forward2.setNextState(null);
 */
-
-
-
-
-
-
-
     }
-
-
     @Override
     public void start(){
-
         machine = new StateMachine(strafeLeft);
-
     }
-
-
-
     public void loop()  {
-
         machine.update();
-
     }
-
     public void wait(int time) {
         try {
             Thread.sleep(time * 1000);//milliseconds
