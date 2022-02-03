@@ -29,7 +29,7 @@ public class intakeState implements State {
 
     public intakeState(int time, double power, DcMotor extend) {
         Time = time;
-        extendArm = extend;
+        intake = extend;
 
         Power = power;
 
@@ -53,13 +53,13 @@ public class intakeState implements State {
 
         while (mRuntime.milliseconds() < Time) {
 
-            extendArm.setPower(Power);
+            intake.setPower(Power);
 
             return this;
 
         }
         if (Time <= mRuntime.milliseconds()) {
-            extendArm.setPower(0);
+            intake.setPower(0);
             // return NextState;
         }
 
