@@ -20,8 +20,8 @@ author: 9681 Software
 GOALS: Place the wobble goal in the zone and put rings in lowest goal
 DESCRIPTION: This code is used for our autonomous when we are located on the blue side
  */
-@Autonomous(name="AutoTest22RedRight", group="Iterative Opmode")
-public class AutoTest22RedRight extends OpMode
+@Autonomous(name="AutoTest22BlueRight", group="Iterative Opmode")
+public class AutoTest22BlueRight extends OpMode
 {
     /*
     ---MOTORS---
