@@ -20,8 +20,8 @@ author: 9681 Software
 GOALS: Place the wobble goal in the zone and put rings in lowest goal
 DESCRIPTION: This code is used for our autonomous when we are located on the blue side
  */
-@Autonomous(name="AutoTest22", group="Iterative Opmode")
-public class AutoTest22 extends OpMode
+@Autonomous(name="AutoTest22RedRight", group="Iterative Opmode")
+public class AutoTest22RedRight extends OpMode
 {
     /*
     ---MOTORS---
@@ -43,13 +43,14 @@ public class AutoTest22 extends OpMode
     driveState forwards1;
     driveState turnLeft;
     extendArmState raiseArm1;
-    extendArmState extendFirst;
+ //   extendArmState extendFirst;
     intakeState deposit; //new
-    extendArmState extendBack;
+  //  extendArmState extendBack;
     driveState getMoveBackwards1;
     driveState turnLeft2;
     driveState forward2;
     //CRServoState open1;
+    Servo wrist;
     driveState moveBackwards1;
     public void init() {
         /*
@@ -62,7 +63,7 @@ public class AutoTest22 extends OpMode
         raiseArmMotor = hardwareMap.dcMotor.get("raise arm");
         extendArm = hardwareMap.dcMotor.get("extend arm");
         intake = hardwareMap.dcMotor.get("intake");
-
+        wrist = hardwareMap.servo.get("wrist");
         claw1 = hardwareMap.servo.get("claw 1");
         claw2 = hardwareMap.servo.get("claw 2");
         //claw1 = hardwareMap.crservo.get("claw 1");
@@ -86,34 +87,38 @@ public class AutoTest22 extends OpMode
         //CRServos.add(claw2);
         //extend, CRServos
         //maybe add an extra time?????? it was in colorstone
+
+        wrist.setPosition(0.65);
         /*
         ---USING STATES---
          */
         strafeLeft = new driveState(27, 0.2, motors, "strafeLeft"); //first move left (but is actually right because our things arte switched
         //drive forward a little, then turn left 90 degrees, raise and extend arm. dispose rings, move backwards
-        forwards1 = new driveState(25, 0.1, motors, "forwards");
-        extendFirst = new extendArmState(100, 1.0, extendArm);
-        deposit = new intakeState(1000, -1.0, intake);
-        extendBack = new extendArmState(100, -1.0, extendArm);
+        forwards1 = new driveState(19, 0.1, motors, "forwards");
+       // extendFirst = new extendArmState(100, 1.0, extendArm);
+        deposit = new intakeState(1000, -0.5, intake);
+       // extendBack = new extendArmState(100, -1.0, extendArm);
         //  open1 = new CRServoState(2000, 1.0, 1.0, servos);//do this later
         moveBackwards1 = new driveState(5, 1.0, motors, "backwards");
-        turnLeft = new driveState(20, 1.0, motors, "turnRight");
-        forward2 = new driveState(100, 1.0, motors, "forwards");
+        turnLeft = new driveState(24, 1.0, motors, "turnLeft");
+        forward2 = new driveState(70, 1.0, motors, "forwards");
         //open the claws
         //back up
         strafeLeft.setNextState(forwards1);
-        forwards1.setNextState(null);
-        /*
-        extendFirst.setNextState(extendBack);
-        extendBack.setNextState(moveBackwards1);
+        forwards1.setNextState(deposit);
+
+     //   extendFirst.setNextState(extendBack);
+        deposit.setNextState(moveBackwards1);
         moveBackwards1.setNextState(turnLeft);
         turnLeft.setNextState(forward2);
         forward2.setNextState(null);
-*/
+
     }
     @Override
     public void start(){
+
         machine = new StateMachine(strafeLeft);
+
     }
     public void loop()  {
         machine.update();
